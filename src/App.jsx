@@ -18,11 +18,7 @@ function App() {
       const totalA = a[0] + a[1];
       const totalB = b[0] + b[1];
 
-      if (isAsc) {
-        return totalA - totalB || a[0] - b[0];
-      } else {
-        return totalB - totalA || b[0] - a[0];
-      }
+      return isAsc ? totalA - totalB : totalB - totalA;
     });
     setDominoes(sorted);
     setIsAsc(!isAsc);
@@ -48,20 +44,24 @@ function App() {
   const removeNumber = (index) => {
     if (selectedIndex !== null) {
       const updatedDominoes = [...dominoes];
-      updatedDominoes[selectedIndex][index] = null; 
+      // Menghapus angka dengan mengganti dengan -1
+      updatedDominoes[selectedIndex][index] = -1; 
       setDominoes(updatedDominoes);
-      setSelectedIndex(null);
     }
   };
 
   const addNumber = () => {
     if (selectedIndex !== null && newNumber) {
       const numberToAdd = parseInt(newNumber);
-      if (!isNaN(numberToAdd)) {
+      // Pastikan angka berada dalam rentang yang valid
+      if (!isNaN(numberToAdd) && numberToAdd >= 0 && numberToAdd <= 6) { // Misalkan domino hanya dari 0-6
         const updatedDominoes = [...dominoes];
+        // Menambahkan angka pada posisi yang sesuai
         updatedDominoes[selectedIndex][1] = numberToAdd; 
         setDominoes(updatedDominoes);
         setNewNumber(""); 
+      } else {
+        alert("Please enter a valid number between 0 and 6.");
       }
     }
   };
@@ -78,7 +78,7 @@ function App() {
             <Domino 
               key={index} 
               domino={domino} 
-              isSelected={selectedIndex === index} // Menandai domino yang dipilih
+              isSelected={selectedIndex === index} 
               onSelect={() => setSelectedIndex(index)} 
             />
           ))}
