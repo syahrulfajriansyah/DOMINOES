@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 
-// Komponen untuk menampilkan satu kartu domino
+// Component to display a single domino card
 const Domino = ({ domino, isSelected, onSelect }) => {
   return (
     <Box

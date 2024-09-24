@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Stack, Heading, Text, VStack, HStack, Input, FormControl, FormLabel } from "@chakra-ui/react";
-import Domino from "./domino"; // Pastikan nama file Domino.js sesuai
-import { dominoData } from "./utils"; // Mengimpor data domino dari utils.js
+import Domino from "./domino"; // Ensure the filename is correct (case-sensitive)
+import { dominoData } from "./utils"; // Import domino data from utils.js
 
 function App() {
   const [dominoes, setDominoes] = useState(dominoData);
@@ -17,7 +17,6 @@ function App() {
     const sorted = [...dominoes].sort((a, b) => {
       const totalA = a[0] + a[1];
       const totalB = b[0] + b[1];
-
       return isAsc ? totalA - totalB : totalB - totalA;
     });
     setDominoes(sorted);
@@ -44,8 +43,8 @@ function App() {
   const removeNumber = (index) => {
     if (selectedIndex !== null) {
       const updatedDominoes = [...dominoes];
-      // Menghapus angka dengan mengganti dengan -1
-      updatedDominoes[selectedIndex][index] = -1; 
+      // Remove number by replacing it with -1
+      updatedDominoes[selectedIndex][index] = -1;
       setDominoes(updatedDominoes);
     }
   };
@@ -53,13 +52,13 @@ function App() {
   const addNumber = () => {
     if (selectedIndex !== null && newNumber) {
       const numberToAdd = parseInt(newNumber);
-      // Pastikan angka berada dalam rentang yang valid
-      if (!isNaN(numberToAdd) && numberToAdd >= 0 && numberToAdd <= 6) { // Misalkan domino hanya dari 0-6
+      // Ensure number is in a valid range
+      if (!isNaN(numberToAdd) && numberToAdd >= 0 && numberToAdd <= 6) { // Assuming domino numbers are from 0 to 6
         const updatedDominoes = [...dominoes];
-        // Menambahkan angka pada posisi yang sesuai
-        updatedDominoes[selectedIndex][1] = numberToAdd; 
+        // Add number to the second position
+        updatedDominoes[selectedIndex][1] = numberToAdd;
         setDominoes(updatedDominoes);
-        setNewNumber(""); 
+        setNewNumber("");
       } else {
         alert("Please enter a valid number between 0 and 6.");
       }
