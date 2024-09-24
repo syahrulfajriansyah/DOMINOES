@@ -15,14 +15,15 @@ const Domino = ({ domino }) => {
       width="80px" // Menambah sedikit lebar kartu domino
       height="120px" // Tinggi kartu domino untuk proporsi yang baik
       boxShadow="lg" // Memberikan bayangan agar terlihat lebih menonjol
-      _hover={{ bg: "teal.200", cursor: "pointer" }} // Animasi hover dengan perubahan warna latar belakang
-      transition="background-color 0.3s" // Efek transisi halus saat hover
+      _hover={{ bg: "teal.200", cursor: "pointer", transform: "scale(1.05)" }} // Animasi hover dengan perubahan warna latar belakang
+      transition="background-color 0.3s, transform 0.3s" // Efek transisi halus saat hover
+      onClick={() => alert(`Kartu Domino: [${domino[0]}, ${domino[1]}]`)} // Menambahkan interaksi saat kartu domino diklik
     >
-      <Box fontSize="2xl" fontWeight="bold">
+      <Box fontSize="2xl" fontWeight="bold" color="gray.800">
         {domino[0]} {/* Menampilkan angka sisi atas */}
       </Box>
       <Box mt={2} mb={2} height="1px" bg="gray.600" /> {/* Garis pemisah */}
-      <Box fontSize="2xl" fontWeight="bold">
+      <Box fontSize="2xl" fontWeight="bold" color="gray.800">
         {domino[1]} {/* Menampilkan angka sisi bawah */}
       </Box>
     </Box>

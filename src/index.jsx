@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import App from "./App";
 
-// Membuat tema kustom (opsional)
+// Membuat tema kustom
 const theme = extendTheme({
   colors: {
     primary: {
@@ -28,7 +28,7 @@ const theme = extendTheme({
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
-// Membungkus aplikasi dengan ChakraProvider dan tema kustom (jika ada)
+// Membungkus aplikasi dengan ChakraProvider dan tema kustom
 root.render(
   <ChakraProvider theme={theme}>
     <App />
