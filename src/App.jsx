@@ -1,22 +1,18 @@
-// Import statement Chakra UI dan React
 import React, { useState } from "react";
 import { Box, Button, Stack, Heading, Text, VStack, HStack, Input, FormControl, FormLabel } from "@chakra-ui/react";
 import Domino from "./domino"; // Pastikan nama file Domino.js sesuai
 import { dominoData } from "./utils"; // Mengimpor data domino dari utils.js
 
-// Fungsi utama aplikasi
 function App() {
-  const [dominoes, setDominoes] = useState(dominoData); // Menyimpan data domino
-  const [isAsc, setIsAsc] = useState(true); // Menyimpan state sorting (asc atau desc)
-  const [selectedIndex, setSelectedIndex] = useState(null); // Menyimpan indeks domino yang dipilih untuk penghapusan
-  const [newNumber, setNewNumber] = useState(""); // Menyimpan angka baru untuk ditambahkan
+  const [dominoes, setDominoes] = useState(dominoData);
+  const [isAsc, setIsAsc] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [newNumber, setNewNumber] = useState("");
 
-  // Menghitung jumlah kartu dengan angka ganda (double numbers)
   const countDoubles = () => {
     return dominoes.filter(([a, b]) => a === b).length;
   };
 
-  // Fungsi untuk mengurutkan data (asc atau desc)
   const sortDominoes = () => {
     const sorted = [...dominoes].sort((a, b) => {
       const totalA = a[0] + a[1];
@@ -29,16 +25,14 @@ function App() {
       }
     });
     setDominoes(sorted);
-    setIsAsc(!isAsc); // Toggle urutan
+    setIsAsc(!isAsc);
   };
 
-  // Fungsi untuk membalik urutan semua domino
   const flipDominoes = () => {
     const flipped = dominoes.map(([a, b]) => [b, a]);
     setDominoes(flipped);
   };
 
-  // Fungsi untuk menghapus domino duplikat
   const removeDuplicates = () => {
     const uniqueDominoes = dominoes.filter(
       (domino, index, self) =>
@@ -47,29 +41,27 @@ function App() {
     setDominoes(uniqueDominoes);
   };
 
-  // Fungsi untuk mereset data ke default
   const resetDominoes = () => {
     setDominoes(dominoData);
   };
 
-  // Fungsi untuk menghapus angka dari domino yang dipilih
-  const removeNumber = () => {
+  const removeNumber = (index) => {
     if (selectedIndex !== null) {
-      const updatedDominoes = dominoes.filter((_, index) => index !== selectedIndex);
+      const updatedDominoes = [...dominoes];
+      updatedDominoes[selectedIndex][index] = null; 
       setDominoes(updatedDominoes);
-      setSelectedIndex(null); // Reset pilihan
+      setSelectedIndex(null);
     }
   };
 
-  // Fungsi untuk menambah angka ke domino yang dipilih
   const addNumber = () => {
     if (selectedIndex !== null && newNumber) {
       const numberToAdd = parseInt(newNumber);
       if (!isNaN(numberToAdd)) {
         const updatedDominoes = [...dominoes];
-        updatedDominoes[selectedIndex] = [updatedDominoes[selectedIndex][0], numberToAdd]; // Menambah angka pada bagian kedua
+        updatedDominoes[selectedIndex][1] = numberToAdd; 
         setDominoes(updatedDominoes);
-        setNewNumber(""); // Reset input
+        setNewNumber(""); 
       }
     }
   };
@@ -80,25 +72,23 @@ function App() {
         Dominoes Application
       </Heading>
 
-      {/* Menampilkan semua kartu domino */}
       <VStack spacing={4} mb={4}>
         <Stack direction={{ base: "column", md: "row" }} spacing={4} wrap="wrap" justify="center">
           {dominoes.map((domino, index) => (
             <Domino 
               key={index} 
               domino={domino} 
-              onSelect={() => setSelectedIndex(index)} // Menetapkan indeks saat domino dipilih
+              isSelected={selectedIndex === index} // Menandai domino yang dipilih
+              onSelect={() => setSelectedIndex(index)} 
             />
           ))}
         </Stack>
       </VStack>
 
-      {/* Menampilkan jumlah double numbers */}
       <Text mb={4} fontSize="lg" textAlign="center" fontWeight="semibold">
         Number of doubles: {countDoubles()}
       </Text>
 
-      {/* Tombol untuk fitur tambahan */}
       <HStack spacing={4} justify="center" mb={4}>
         <Button colorScheme="teal" onClick={sortDominoes}>
           Sort {isAsc ? "Descending" : "Ascending"}
@@ -112,12 +102,14 @@ function App() {
         <Button colorScheme="teal" onClick={resetDominoes}>
           Reset Dominoes
         </Button>
-        <Button colorScheme="red" onClick={removeNumber} isDisabled={selectedIndex === null}>
-          Remove Selected Number
+        <Button colorScheme="red" onClick={() => removeNumber(0)} isDisabled={selectedIndex === null}>
+          Remove First Number
+        </Button>
+        <Button colorScheme="red" onClick={() => removeNumber(1)} isDisabled={selectedIndex === null}>
+          Remove Second Number
         </Button>
       </HStack>
 
-      {/* Input untuk menambah angka */}
       <FormControl mb={4} isDisabled={selectedIndex === null}>
         <FormLabel>Add Number to Selected Domino</FormLabel>
         <HStack>
