@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Box, Button, Stack, Heading, Text, VStack, HStack, Input, FormControl, FormLabel } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Stack,
+  Heading,
+  Text,
+  VStack,
+  HStack,
+  Input,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import Domino from "./domino"; // Ensure the filename is correct (case-sensitive)
 import { dominoData } from "./utils"; // Import domino data from utils.js
 
@@ -31,7 +42,12 @@ function App() {
   const removeDuplicates = () => {
     const uniqueDominoes = dominoes.filter(
       (domino, index, self) =>
-        index === self.findIndex(([a, b]) => (a === domino[0] && b === domino[1]) || (a === domino[1] && b === domino[0]))
+        index ===
+        self.findIndex(
+          ([a, b]) =>
+            (a === domino[0] && b === domino[1]) ||
+            (a === domino[1] && b === domino[0])
+        )
     );
     setDominoes(uniqueDominoes);
   };
@@ -53,7 +69,8 @@ function App() {
     if (selectedIndex !== null && newNumber) {
       const numberToAdd = parseInt(newNumber);
       // Ensure number is in a valid range
-      if (!isNaN(numberToAdd) && numberToAdd >= 0 && numberToAdd <= 6) { // Assuming domino numbers are from 0 to 6
+      if (!isNaN(numberToAdd) && numberToAdd >= 0 && numberToAdd <= 6) {
+        // Assuming domino numbers are from 0 to 6
         const updatedDominoes = [...dominoes];
         // Add number to the second position
         updatedDominoes[selectedIndex][1] = numberToAdd;
@@ -68,17 +85,22 @@ function App() {
   return (
     <Box p={4} bg="gray.50" minHeight="100vh">
       <Heading mb={4} textAlign="center" color="teal.600">
-        Dominoes Application
+        Dominoes Game Application
       </Heading>
 
       <VStack spacing={4} mb={4}>
-        <Stack direction={{ base: "column", md: "row" }} spacing={4} wrap="wrap" justify="center">
+        <Stack
+          direction={{ base: "column", md: "row" }}
+          spacing={4}
+          wrap="wrap"
+          justify="center"
+        >
           {dominoes.map((domino, index) => (
-            <Domino 
-              key={index} 
-              domino={domino} 
-              isSelected={selectedIndex === index} 
-              onSelect={() => setSelectedIndex(index)} 
+            <Domino
+              key={index}
+              domino={domino}
+              isSelected={selectedIndex === index}
+              onSelect={() => setSelectedIndex(index)}
             />
           ))}
         </Stack>
@@ -101,10 +123,18 @@ function App() {
         <Button colorScheme="teal" onClick={resetDominoes}>
           Reset Dominoes
         </Button>
-        <Button colorScheme="red" onClick={() => removeNumber(0)} isDisabled={selectedIndex === null}>
+        <Button
+          colorScheme="red"
+          onClick={() => removeNumber(0)}
+          isDisabled={selectedIndex === null}
+        >
           Remove First Number
         </Button>
-        <Button colorScheme="red" onClick={() => removeNumber(1)} isDisabled={selectedIndex === null}>
+        <Button
+          colorScheme="red"
+          onClick={() => removeNumber(1)}
+          isDisabled={selectedIndex === null}
+        >
           Remove Second Number
         </Button>
       </HStack>
@@ -112,10 +142,10 @@ function App() {
       <FormControl mb={4} isDisabled={selectedIndex === null}>
         <FormLabel>Add Number to Selected Domino</FormLabel>
         <HStack>
-          <Input 
-            placeholder="Enter number" 
-            value={newNumber} 
-            onChange={(e) => setNewNumber(e.target.value)} 
+          <Input
+            placeholder="Enter number"
+            value={newNumber}
+            onChange={(e) => setNewNumber(e.target.value)}
           />
           <Button colorScheme="teal" onClick={addNumber}>
             Add Number
